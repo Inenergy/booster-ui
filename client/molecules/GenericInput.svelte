@@ -26,7 +26,7 @@
       {id}
       type="number"
       bind:value
-      on:blur={normalizeValue}
+      on:change={normalizeValue}
       class:short={!!label}
       {name}
       {step}

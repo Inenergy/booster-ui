@@ -27,10 +27,6 @@
     });
   };
 
-  const setPoint = (e) => {
-    currentPoint = +e.target.value;
-  };
-
   function startCalibration() {
     showCalibrationModal = true;
   }
@@ -76,9 +72,8 @@
         type="number"
         label={$__('H2 consumption')}
         value={currentPoint}
-        min={0}
-        max={10000}
-        on:change={setPoint}
+        onChange={(v) => (currentPoint = v)}
+        range={[0, 10000]}
       />
       <Value
         value={$serialData.hydrogenConsumption.raw}
