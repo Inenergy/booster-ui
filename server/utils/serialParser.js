@@ -48,9 +48,10 @@ module.exports = function parse(buf) {
   const hydrogenConsumption = dataMap.hydrogenConsumption.value;
   dataMap.hydrogenConsumption.raw = hydrogenConsumption;
   dataMap.hydrogenConsumption.value = +(
-    410.286 +
-    0.288571 * hydrogenConsumption -
-    4.0571e-5 * hydrogenConsumption ** 2
+    -6249.42 +
+    29.4228 * hydrogenConsumption -
+    0.045838 * hydrogenConsumption ** 2 +
+    2.7e-5 * hydrogenConsumption ** 2
   ).toPrecision(2);
   return dataMap;
 };
