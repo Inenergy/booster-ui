@@ -4,7 +4,7 @@
   import Input from '../molecules/GenericInput.svelte';
   import { __ } from '../utils/translator';
   import { serialData, settings } from '../stores';
-  import { approximate } from '../utils/exponentialApproxiamator';
+  import { approximate } from '../utils/polynomialApproximator';
   import { onDestroy } from 'svelte';
   import Value from '../atoms/Value.svelte';
 
@@ -33,10 +33,9 @@
   function setConsumptionCoefficiets() {
     try {
       console.log(points);
-      const [Ka, Kb] = approximate(points);
+      const coefficients = approximate(points, 4);
       settings.update((s) => {
-        s.Ka = Ka;
-        s.Kb = Kb;
+        s.coefficients = coefficients;
         return s;
       });
       calibrateMessage = $__('calibration done');

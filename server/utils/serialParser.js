@@ -6,7 +6,7 @@ const {
   STATE_DATA,
 } = require('../../common/constants');
 const { clone } = require('../../common/helpers');
-const { Ka, Kb } = require('./configManager').getSettings();
+const configManager = require('./configManager');
 
 const dataMap = clone(SERIAL_DATA);
 
@@ -47,11 +47,9 @@ module.exports = function parse(buf) {
   ).toPrecision(4);
   const hydrogenConsumption = dataMap.hydrogenConsumption.value;
   dataMap.hydrogenConsumption.raw = hydrogenConsumption;
-  dataMap.hydrogenConsumption.value = +(
-    -6249.42 +
-    29.4228 * hydrogenConsumption -
-    0.045838 * hydrogenConsumption ** 2 +
-    2.7e-5 * hydrogenConsumption ** 2
-  ).toPrecision(2);
+  const coefficients = configManager.getSettings().coefficients || [];
+  dataMap.hydrogenConsumption.value = +coefficients
+    .reduce((s, a, i) => s + a * hydrogenConsumption ** i, 0)
+    .toPrecision(2);
   return dataMap;
 };
