@@ -16,17 +16,17 @@ test('solves linear equations correctly', () => {
 
 test('approximates exponential function correctly', () => {
   const points = [
-    { x: 0.5, y: 0.705},
-    { x: 0.6, y: 0.495},
-    { x: 0.7, y: 0.426},
-    { x: 0.8, y: 0.357},
-    { x: 0.9, y: 0.368},
-    { x: 1.0, y: 0.406},
-    { x: 1.1, y: 0.549},
-    { x: 1.2, y: 0.768},
+    { x: 414, y: 0 },
+    { x: 536, y: 500 },
+    { x: 661, y: 1000 },
+    { x: 756, y: 1500 },
+    { x: 825, y: 2000 },
+    { x: 875, y: 2500 },
+    { x: 912, y: 3000 },
   ];
-  const [a, b, c] = approximate(points, 3);
-  expect(a).toBeCloseTo(2.529);
-  expect(b).toBeCloseTo(-5.2175);
-  expect(c).toBeCloseTo(3.1154);
+  const [a, b, c, d] = approximate(points, 4);
+  expect(a).toBeCloseTo(-6249.42);
+  expect(b).toBeCloseTo(29.4229);
+  expect(c).toBeCloseTo(-0.04583);
+  expect(d).toBeCloseTo(2.7e-5);
 });

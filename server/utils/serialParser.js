@@ -48,8 +48,8 @@ module.exports = function parse(buf) {
   const hydrogenConsumption = dataMap.hydrogenConsumption.value;
   dataMap.hydrogenConsumption.raw = hydrogenConsumption;
   const coefficients = configManager.getSettings().coefficients || [];
-  dataMap.hydrogenConsumption.value = +coefficients
-    .reduce((s, a, i) => s + a * hydrogenConsumption ** i, 0)
-    .toPrecision(2);
+  dataMap.hydrogenConsumption.value = Math.round(
+    coefficients.reduce((s, a, i) => s + a * hydrogenConsumption ** i, 0)
+  );
   return dataMap;
 };
