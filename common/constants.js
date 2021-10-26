@@ -21,7 +21,7 @@ const STATE_DATA = [
   { name: 'stopPressed' },
   { name: 'overheatError' },
   { name: 'shortCircuitAllowed', label: 'short circuit allowed' },
-  { name: 'maxPressure', label: 'max pressure' },
+  { name: 'maxPressure', label: 'max pressure', divider: 100 },
   { name: 'firstPurgeDelay', label: 'first purge delay' },
   { name: 'firstPurgeCycles', label: 'first purge cycles' },
 ];
@@ -118,12 +118,12 @@ const PARAMS_DATA = [
     name: 'shortCircuitDuration',
   },
   {
-    label: 'NTC',
+    label: 'NTC coefficient',
     name: 'tempSensorK',
   },
   {
     label: 'first purge duration',
-    units: 'c',
+    units: 'ms',
     name: 'firstPurgeDuration',
   },
 ];
@@ -168,11 +168,11 @@ const CONSTRAINTS = {
   minVoltage: [-10, 100],
   shortCircuitDuration: [0, 200],
   shortCircuitDelay: [0, 100],
-  firstPurgeDuration: [0, 600000],
+  firstPurgeDuration: [0, 60000],
   firstPurgeDelay: [0, 250],
   firstPurgeCycles: [0, 250],
   maxPressure: [0, 2],
-  tempSensorK: [0, 100],
+  tempSensorK: [1000, 5000],
 };
 
 const STEPS = {

@@ -25,13 +25,15 @@ module.exports = function parse(buf) {
   }
   for (let j = 0; j < PARAMS_DATA.length; j++) {
     const { name, divider = 1 } = PARAMS_DATA[j];
-    dataMap[name].value = +(buf.readInt16BE(i) / divider).toPrecision(4);
+    const precision = +divider.toExponential().slice(-2);
+    dataMap[name].value = +(buf.readInt16BE(i) / divider).toPrecision(precision);
     checkSum += buf.readInt16BE(i);
     i += 2;
   }
   for (let j = 0; j < STATE_DATA.length; j++) {
     checkSum += buf[i];
-    dataMap[STATE_DATA[j].name].value = buf[i++];
+    const divider = STATE_DATA[j].divider || 1
+    dataMap[STATE_DATA[j].name].value = buf[i++] / divider;
   }
   dataMap.start.value = dataMap.start.value !== 127;
   checkSum = checkSum % Math.pow(2, 16);
