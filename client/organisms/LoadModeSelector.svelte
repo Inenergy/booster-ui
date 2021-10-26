@@ -5,15 +5,29 @@
   import wsClient from '../utils/wsClient';
   import { serialData } from '../stores';
 
+  let mode = $serialData.loadMode.value;
   let loadValues = [$serialData.load.value, 0, 0];
-  loadValues[$serialData.loadMode.value] = $serialData.load.value;
+  loadValues[mode] = $serialData.load.value;
 
   function setLoadMode(e) {
-    const { value: mode, checked } = e.currentTarget;
+    const { value, checked } = e.currentTarget;
+    mode = +value;
     if (checked) {
-      wsClient.emit('serial command', ...COMMANDS.loadMode(+mode));
-      if (mode != 0)
-        wsClient.emit('serial command', ...COMMANDS.load(loadValues[mode]));
+      wsClient.emit('serial command', ...COMMANDS.loadMode(mode));
+      if (mode != 0) sendLoadValue();
+    }
+  }
+
+  function sendLoadValue() {
+    wsClient.emit('serial command', ...COMMANDS.load(loadValues[mode]));
+  }
+
+  function setLoadValue(loadMode, e) {
+    let value = e.target.value;
+    value = parseFloat(value) || 0;
+    loadValues[loadMode] = value;
+    if (loadMode == mode) {
+      sendLoadValue();
     }
   }
 </script>
@@ -39,15 +53,20 @@
         min={CONSTRAINTS[mode.name][0]}
         max={CONSTRAINTS[mode.name][1]}
         step={STEPS.load}
+        on:change={(e) => setLoadValue(mode.value, e)}
         bind:value={loadValues[mode.value]}
       />
     {:else}
-      <input readonly value={loadValues[0]} />
+      <strong>{$serialData.load.value}</strong>
     {/if}
   </div>
 {/each}
 
 <style>
+  strong {
+    font-weight: 500;
+    font-size: 2rem;
+  }
   div {
     display: flex;
     margin-bottom: 1.2rem;
