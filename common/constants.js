@@ -118,7 +118,7 @@ const PARAMS_DATA = [
     name: 'shortCircuitDuration',
   },
   {
-    label: 'Temperature sensor K',
+    label: 'NTC',
     name: 'tempSensorK',
   },
   {
