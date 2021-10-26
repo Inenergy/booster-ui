@@ -6,6 +6,7 @@
   import { serialData } from '../stores';
 
   let loadValues = [$serialData.load.value, 0, 0];
+  loadValues[$serialData.loadMode.value] = $serialData.load.value;
 
   function setLoadMode(e) {
     const { value: mode, checked } = e.currentTarget;
