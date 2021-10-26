@@ -146,11 +146,11 @@ const COMMANDS = {
   shortCircuitDuration: (v) => [84, v],
   shortCircuitDelay: (v) => [88, v],
   shortCircuitAllowed: (v) => [92, v],
-  firstPurgeDuration: (v) => [96, v / 10],
+  firstPurgeDuration: (v) => [96, v],
   firstPurgeDelay: (v) => [100, v],
   firstPurgeCycles: (v) => [104, v],
   maxPressure: (v) => [108, Math.round(v * 100)],
-  tempSensorK: (v) => [112, Math.round(v * 10)],
+  tempSensorK: (v) => [112, v],
 };
 
 const CONSTRAINTS = {
@@ -199,7 +199,7 @@ const STEPS = {
   firstPurgeDelay: 1,
   firstPurgeCycles: 1,
   maxPressure: 0.01,
-  tempSensorK: 0.1,
+  tempSensorK: 1,
 };
 
 const LOGGED_VALUES = [
