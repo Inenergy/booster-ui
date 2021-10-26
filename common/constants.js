@@ -3,16 +3,9 @@ const STATE_DATA = [
   { label: 'load mode', name: 'loadMode' },
   { label: 'temperature stabilization', name: 'boostMode' },
   {
-    label: 'short circuit duration',
-    units: 'ms',
-    name: 'shortCircuitDuration',
-    prefix: 'KZ ',
-  },
-  {
     label: 'short circuit delay',
     units: 's',
     name: 'shortCircuitDelay',
-    prefix: 'KZ ',
   },
   {
     label: 'purge before short ciricuit',
@@ -26,6 +19,7 @@ const STATE_DATA = [
   { name: 'pressureError' },
   { name: 'voltageError' },
   { name: 'stopPressed' },
+  { name: 'overheatError' },
   { name: 'shortCircuitAllowed', label: 'short circuit allowed' },
   { name: 'maxPressure', label: 'max pressure' },
   { name: 'firstPurgeDelay', label: 'first purge delay' },
@@ -117,6 +111,11 @@ const PARAMS_DATA = [
     units: 'ml/min',
     name: 'hydrogenConsumption',
     signed: true,
+  },
+  {
+    label: 'short circuit duration',
+    units: 'ms',
+    name: 'ShortCircuitDuration',
   },
   {
     label: 'Temperature sensor K',
@@ -244,18 +243,12 @@ function addParamToMap(param) {
 }
 
 const SIGNALS = {
-  tempError: 'Vysokaya temperatura, ostanovka\n',
-  pressureError: 'Nizkoe davlenie, ostanovka\n',
-  voltageError: 'Nizkoe napryazenie, ostanovka\n',
+  tempError: 'High temperature, stop\n',
+  pressureError: 'Low pressure, stop\n',
+  voltageError: 'Low voltage, stop\n',
   stopPressed: 'Reset all prameters\n',
+  overheatError: 'Overheat, stop\n',
 };
-
-const STOP_BITS = [
-  '',
-  'Razgon zavershen, snyatie VAH\n',
-  'Snyatie VAH zaversheno, holostoi hod\n',
-  'Okonchanie avtorazgona\n\n\n\n',
-];
 
 const BOOST_MODES = ['manual fan', 'auto fan', 'manual temp', 'auto temp'];
 
@@ -280,7 +273,6 @@ module.exports = {
   SERIAL_DATA,
   TERMINATE_SIGNALS,
   SIGNALS,
-  STOP_BITS,
   BOOST_MODES,
   ALGORITHM_PARAM,
   ALGORITHM_DIRECTIONS,
