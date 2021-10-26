@@ -25,8 +25,7 @@ module.exports = function parse(buf) {
   }
   for (let j = 0; j < PARAMS_DATA.length; j++) {
     const { name, divider = 1 } = PARAMS_DATA[j];
-    const precision = +divider.toExponential().slice(-2);
-    dataMap[name].value = +(buf.readInt16BE(i) / divider).toPrecision(precision);
+    dataMap[name].value = +(buf.readInt16BE(i) / divider).toPrecision(4);
     checkSum += buf.readInt16BE(i);
     i += 2;
   }
