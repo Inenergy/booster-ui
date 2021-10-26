@@ -122,7 +122,7 @@
           {/each}
         {/if}
       {/each}
-      {#if idx == 0}
+      {#if idx == 2}
         <ElapsedTimer />
         <a href={$logExists ? './log' : void 0}>{$__('get log')}</a>
       {/if}
