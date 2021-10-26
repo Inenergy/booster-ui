@@ -115,7 +115,7 @@ const PARAMS_DATA = [
   {
     label: 'short circuit duration',
     units: 'ms',
-    name: 'ShortCircuitDuration',
+    name: 'shortCircuitDuration',
   },
   {
     label: 'Temperature sensor K',
