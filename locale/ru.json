@@ -7,6 +7,9 @@
   "temperature": "температура",
   "purge duration": "длительность продувки",
   "purge delay": "задержка продувки",
+  "first purge delay": "задержка 1 продувки",
+  "first purge duration": "длительность 1 продувки",
+  "first purge cycles": "кол-во циклов 1 продувки",
   "H2 pressure": "давление H2",
   "H2 consumption": "расход H2",
   "voltage, V": "напряжение, В",
@@ -18,11 +21,13 @@
   "load": "нагрузка",
   "temperatures": "температуры",
   "temperature stabilization": "стабилизация температуры",
+  "temperature sensor K": "коэффициент датчика температуры",
   "stabilization temperature": "температура стабилизации",
   "load disabled": "нагрузка отключена",
   "max temperature": "максимальная температура",
   "min voltage": "минимальное напряжение",
   "min pressure": "минимальное давление",
+  "max pressure": "максимальное давление",
   "valve": "клапан",
   "fuel cell": "БТЭ",
   "load mode": "режим нагрузки",
@@ -91,5 +96,6 @@
   "parameters": "параметры",
   "script": "алгоритм",
   "script executed!": "автоматическое исполнение завершено!",
-  "value": "значение"
+  "value": "значение",
+  "short circuit allowed": "КЗ разрешено"
 }

@@ -12,7 +12,13 @@ module.exports = [
     },
     {
       title: 'valve',
-      inputs: ['blowDelay', 'blowDuration'],
+      inputs: [
+        'blowDelay',
+        'blowDuration',
+        'firstPurgeDuration',
+        'firstPurgeDelay',
+        'firstPurgeCycles',
+      ],
     },
   ],
   [
@@ -20,10 +26,12 @@ module.exports = [
       inputs: [
         'maxTemp',
         'minPressure',
+        'maxPressure',
         'minVoltage',
         'shortCircuitDuration',
         'shortCircuitDelay',
       ],
+      checkboxes: ['shortCircuitAllowed'],
     },
     {
       title: 'fan',
@@ -38,6 +46,7 @@ module.exports = [
         { name: 'temp2', maxCompare: 'maxTemp' },
         { name: 'radiatorTemp1' },
       ],
+      inputs: ['tempSensorK'],
     },
   ],
 ];

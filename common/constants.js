@@ -26,6 +26,10 @@ const STATE_DATA = [
   { name: 'pressureError' },
   { name: 'voltageError' },
   { name: 'stopPressed' },
+  { name: 'shortCircuitAllowed', label: 'short circuit allowed' },
+  { name: 'maxPressure', label: 'max pressure' },
+  { name: 'firstPurgeDelay', label: 'first purge delay' },
+  { name: 'firstPurgeCycles', label: 'first purge cycles' },
 ];
 
 const TERMINATE_SIGNALS = STATE_DATA.slice(-4).map((v) => v.name);
@@ -114,6 +118,15 @@ const PARAMS_DATA = [
     name: 'hydrogenConsumption',
     signed: true,
   },
+  {
+    label: 'Temperature sensor K',
+    name: 'tempSensorK',
+  },
+  {
+    label: 'first purge duration',
+    units: 'c',
+    name: 'firstPurgeDuration',
+  },
 ];
 
 const DATA_BYTE_LENGTH = STATE_DATA.length + PARAMS_DATA.length * 2 + 6; // last six bytes sent for validation
@@ -133,6 +146,12 @@ const COMMANDS = {
   startCalibration: () => [80, 0],
   shortCircuitDuration: (v) => [84, v],
   shortCircuitDelay: (v) => [88, v],
+  shortCircuitAllowed: (v) => [92, v],
+  firstPurgeDuration: (v) => [96, v / 10],
+  firstPurgeDelay: (v) => [100, v],
+  firstPurgeCycles: (v) => [104, v],
+  maxPressure: (v) => [108, Math.round(v * 100)],
+  tempSensorK: (v) => [112, Math.round(v * 10)],
 };
 
 const CONSTRAINTS = {
@@ -150,6 +169,11 @@ const CONSTRAINTS = {
   minVoltage: [-10, 100],
   shortCircuitDuration: [0, 200],
   shortCircuitDelay: [0, 100],
+  firstPurgeDuration: [0, 600000],
+  firstPurgeDelay: [0, 250],
+  firstPurgeCycles: [0, 250],
+  maxPressure: [0, 2],
+  tempSensorK: [0, 100],
 };
 
 const STEPS = {
@@ -172,6 +196,11 @@ const STEPS = {
   timeStep: 1,
   shortCircuitDelay: 1,
   shortCircuitDuration: 1,
+  firstPurgeDuration: 10,
+  firstPurgeDelay: 1,
+  firstPurgeCycles: 1,
+  maxPressure: 0.01,
+  tempSensorK: 0.1,
 };
 
 const LOGGED_VALUES = [

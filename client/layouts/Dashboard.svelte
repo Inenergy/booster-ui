@@ -9,6 +9,7 @@
   import { __ } from '../utils/translator';
   import loadModeOptions from '../models/loadModeOptions';
   import ElapsedTimer from '../molecules/ElapsedTimer.svelte';
+  import Checkbox from '../molecules/Checkbox.svelte';
 
   const initialData = $serialData;
 
@@ -21,6 +22,7 @@
     'currentStep',
     'endCurrent',
     'timeStep',
+    'maxPressure',
   ];
 
   $: selectedLoadMode =
@@ -86,6 +88,18 @@
               currentValue={$serialData[name].value}
               label={$__(initialData[name].label)}
               units={$__(initialData[name].units, true)}
+              {name}
+              onChange={sendCommand}
+            />
+          {/each}
+        {/if}
+        {#if block.checkboxes}
+          {#each block.checkboxes as name}
+            <Checkbox
+              disabled={$serialData.start.value &&
+                disabledOnStart.includes(name)}
+              checked={$serialData[name].value}
+              label={$__(initialData[name].label)}
               {name}
               onChange={sendCommand}
             />
