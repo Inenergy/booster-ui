@@ -76,24 +76,16 @@ function writeRow(boosterState) {
 }
 
 function getLogRow(boosterState) {
-  const row = [getFormatedDate('YYYY:MM:DD HH:mm:ss')];
-  row.push.apply(
-    row,
-    LOGGED_VALUES.map(
-      (key) =>
-        `${boosterState[key].prefix || ''}${boosterState[key].value}${
-          boosterState[key].units || ''
-        }`
-    )
+  let row = [getFormatedDate('YYYY/MM/DD HH:mm:ss.ms')];
+  row = row.concat(
+    LOGGED_VALUES.map((key) => boosterState[key].value).slice(0, -2)
   );
-  row.pop();
-  row.pop();
   row.push(boosterState.isBlow.value ? 'P' : '-');
   row.push(boosterState.isShortCircuit.value ? 'SC' : '-');
   return row.concat('\n').join('\t');
 }
 
-function generateLogHeader(boosterState, expNumber) {
+function generateLogHeader(boosterState) {
   return `
 Start
 ${BOOST_MODES[boosterState.boostMode.value]}

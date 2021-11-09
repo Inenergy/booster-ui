@@ -7,6 +7,7 @@
   let showModal = false,
     isUpdating,
     windowMessage = 'new version is available!',
+    promtUpdate = true,
     updateError;
 
   wsClient.emit('check update');
@@ -17,11 +18,15 @@
     console.error(err);
     isUpdating = false;
   });
-  wsClient.on('update done', () => (window.location.reload()));
+  wsClient.on('update done', () => {
+    windowMessage = 'update installed, press f5 to realod window'
+    isUpdating = false;
+  });
 
   function startUpdate() {
     wsClient.emit('update programm');
     isUpdating = true;
+    promtUpdate = false;
     windowMessage = 'installing update, it may take a long time'
   }
   function closeModal() {
@@ -38,7 +43,7 @@
       <div class="spinner">
         <Spinner size="lg" />
       </div>
-    {:else if !updateError}
+    {:else if promtUpdate}
       <p>{$__('update now?')}</p>
       <div class="buttons">
         <Button on:click={startUpdate}>{$__('yes')}</Button>

@@ -39,7 +39,7 @@ function sendData() {
 function generateData() {
   for (const key of ['FCVoltage', 'FCCurrent', 'FCPower'])
     dataMap[key].value = +(Math.random() * 100).toFixed(3);
-  dataMap.loadMode.value = Math.round(Math.random());
+  dataMap.loadMode.value = 2;
   return dataMap;
 }
 

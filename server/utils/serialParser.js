@@ -6,7 +6,7 @@ const {
   STATE_DATA,
 } = require('../../common/constants');
 const { clone } = require('../../common/helpers');
-const { Ka, Kb } = require('./configManager').getSettings();
+const configManager = require('./configManager');
 
 const dataMap = clone(SERIAL_DATA);
 
@@ -31,7 +31,8 @@ module.exports = function parse(buf) {
   }
   for (let j = 0; j < STATE_DATA.length; j++) {
     checkSum += buf[i];
-    dataMap[STATE_DATA[j].name].value = buf[i++];
+    const divider = STATE_DATA[j].divider || 1
+    dataMap[STATE_DATA[j].name].value = buf[i++] / divider;
   }
   dataMap.start.value = dataMap.start.value !== 127;
   checkSum = checkSum % Math.pow(2, 16);
@@ -45,8 +46,11 @@ module.exports = function parse(buf) {
   dataMap.FCPower.value = +Math.abs(
     dataMap.FCCurrent.value * dataMap.FCVoltage.value
   ).toPrecision(4);
-  const hydrogenConsumption = dataMap.hydrogenConsumption.value
+  const hydrogenConsumption = dataMap.hydrogenConsumption.value;
   dataMap.hydrogenConsumption.raw = hydrogenConsumption;
-  dataMap.hydrogenConsumption.value = +(Ka * Math.exp(Kb * hydrogenConsumption)).toPrecision(2)
+  const coefficients = configManager.getSettings().coefficients || [];
+  dataMap.hydrogenConsumption.value = Math.round(
+    coefficients.reduce((s, a, i) => s + a * hydrogenConsumption ** i, 0)
+  );
   return dataMap;
 };

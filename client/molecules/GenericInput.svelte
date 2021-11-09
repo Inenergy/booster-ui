@@ -4,7 +4,7 @@
   export let type = '';
   export let label = '';
   export let step = 1;
-  export let range = [0, 100];
+  export let range = [-100, 100];
   export let value = '';
   export let onChange = Function.prototype;
   const id = uuid();
@@ -26,7 +26,7 @@
       {id}
       type="number"
       bind:value
-      on:blur={normalizeValue}
+      on:change={normalizeValue}
       class:short={!!label}
       {name}
       {step}

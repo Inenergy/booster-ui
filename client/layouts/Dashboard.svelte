@@ -2,6 +2,7 @@
   import blocks from '../models/paramsLayout';
   import { COMMANDS, STEPS, CONSTRAINTS } from '../../common/constants';
   import { serialData, logExists } from '../stores';
+  import LoadModeSelector from '../organisms/LoadModeSelector.svelte';
   import Select from '../molecules/ControledSelect.svelte';
   import Value from '../atoms/Value.svelte';
   import RangeInput from '../molecules/RangeInput.svelte';
@@ -9,6 +10,7 @@
   import { __ } from '../utils/translator';
   import loadModeOptions from '../models/loadModeOptions';
   import ElapsedTimer from '../molecules/ElapsedTimer.svelte';
+  import Checkbox from '../molecules/Checkbox.svelte';
 
   const initialData = $serialData;
 
@@ -21,6 +23,7 @@
     'currentStep',
     'endCurrent',
     'timeStep',
+    'maxPressure',
   ];
 
   $: selectedLoadMode =
@@ -41,25 +44,7 @@
     <div class="col-{idx}">
       {#if idx === 2}
         <h3>{$__('load')}</h3>
-        <Select
-          onChange={selectLoadMode}
-          name="loadMode"
-          defaultValue={$serialData.loadMode.value}
-          label={$__($serialData.loadMode.label)}
-          options={loadModeOptions}
-        />
-        {#if selectedLoadMode.value}
-          <RangeInput
-            name="load"
-            currentValue={$serialData.load.value}
-            step={STEPS[selectedLoadMode.name]}
-            label={$__(selectedLoadMode.label) + ', ' + $__(selectedLoadMode.units)}
-            range={CONSTRAINTS[selectedLoadMode.name]}
-            onChange={sendCommand}
-          />
-        {:else}
-          <div class="input-placeholder" />
-        {/if}
+        <LoadModeSelector />
       {/if}
       {#each column as block}
         <h3>
@@ -91,6 +76,18 @@
             />
           {/each}
         {/if}
+        {#if block.checkboxes}
+          {#each block.checkboxes as name}
+            <Checkbox
+              disabled={$serialData.start.value &&
+                disabledOnStart.includes(name)}
+              checked={$serialData[name].value}
+              label={$__(initialData[name].label)}
+              {name}
+              onChange={sendCommand}
+            />
+          {/each}
+        {/if}
         {#if block.values}
           {#each block.values as val}
             <Value
@@ -108,7 +105,7 @@
           {/each}
         {/if}
       {/each}
-      {#if idx == 0}
+      {#if idx == 2}
         <ElapsedTimer />
         <a href={$logExists ? './log' : void 0}>{$__('get log')}</a>
       {/if}

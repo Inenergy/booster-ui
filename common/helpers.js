@@ -44,7 +44,8 @@ exports.getFormatedDate = (formatStr) => {
     .replace('DD', zeroPad(date.getDate(), 2))
     .replace('HH', zeroPad(date.getHours(), 2))
     .replace('mm', zeroPad(date.getMinutes(), 2))
-    .replace('ss', zeroPad(date.getSeconds()), 2);
+    .replace('ss', zeroPad(date.getSeconds()), 2)
+    .replace('ms', zeroPad(date.getMilliseconds()), 3);
 };
 
 exports.countKeys = (obj) => {
