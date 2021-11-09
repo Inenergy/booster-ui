@@ -18,8 +18,8 @@
   on:change={(e) => onChange(value, name)}
   class:standalone
 >
-  {#each options as { value, label, icon }}
-    <option {value}>{@html icon || ''}{$__(label) || ''}</option>
+  {#each options as { value, label, icon, units }}
+    <option {value}>{@html icon || ''}{$__(label) || ''}{units ? ', ' + $__(units) : ''}</option>
   {/each}
 </select>
 

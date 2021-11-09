@@ -21,8 +21,8 @@ const STATE_DATA = [
   { name: 'stopPressed' },
   { name: 'overheatError' },
   { name: 'shortCircuitAllowed', label: 'short circuit allowed' },
-  { name: 'maxPressure', label: 'max pressure', divider: 100 },
-  { name: 'firstPurgeDelay', label: 'first purge delay' },
+  { name: 'maxPressure', label: 'max pressure', divider: 100, units: 'bar' },
+  { name: 'firstPurgeDelay', label: 'first purge delay', units: 's' },
   { name: 'firstPurgeCycles', label: 'first purge cycles' },
 ];
 
@@ -222,11 +222,11 @@ const LOGGED_VALUES = [
 
 const ALGORITHM_PARAM = [
   { value: 'none', label: 'load disabled' },
-  { value: 'current', label: 'current' },
-  { value: 'voltage', label: 'voltage' },
-  { value: 'blowDuration', label: 'purge duration' },
-  { value: 'blowDelay', label: 'purge delay' },
-  { value: 'fanLoad', label: 'fan load' },
+  { value: 'current', label: 'current', units: 'A' },
+  { value: 'voltage', label: 'voltage', units: 'V' },
+  { value: 'blowDuration', label: 'purge duration', units: 'ms' },
+  { value: 'blowDelay', label: 'purge delay', units: 's' },
+  { value: 'fanLoad', label: 'fan load', units: '%' },
 ];
 
 const SERIAL_DATA = {

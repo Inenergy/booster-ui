@@ -43,7 +43,7 @@
         checked={mode.value == $serialData.loadMode.value}
       />
       <span class="label">
-        {$__(mode.label)}
+        {$__(mode.label) + (mode.units ? ', ' + $__(mode.units) : '')}
       </span>
     </label>
     {#if mode.value}

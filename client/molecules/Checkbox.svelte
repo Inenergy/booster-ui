@@ -1,7 +1,7 @@
 <script>
   export let style = '';
   export let label = '';
-  export let name;
+  export let name = '';
   export let onChange = Function.prototype;
   export let checked = false;
   export let disabled = false;
@@ -19,7 +19,7 @@
     {disabled}
     {name}
     {checked}
-    on:change={(e) => onChange(e.target.checked, name)}
+    on:change={(e) => onChange(e.currentTarget.checked, name)}
   />
 </label>
 
