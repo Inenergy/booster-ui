@@ -35,7 +35,7 @@ function sendCommand(id, cmd) {
   buf[0] = 40;
   buf[1] = id;
   try {
-    buf[cmd > 2 ** 15 ? 'writeUint16BE' : 'writeInt16BE'](cmd, 2);
+    buf[cmd > 2 ** 15 ? 'writeUInt16BE' : 'writeInt16BE'](cmd, 2);
   } catch {
     console.error(`${id} value ${cmd} is out of range!!`);
   }
