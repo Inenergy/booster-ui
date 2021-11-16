@@ -182,9 +182,9 @@ const CONSTRAINTS = {
   firstPurgeCycles: [0, 250],
   maxPressure: [0, 2],
   tempSensorK: [1000, 5000],
-  coeffP: [0.1, 2.5],
-  coeffI: [0.1, 2.5],
-  coeffD: [0.1, 2.5],
+  coeffP: [0, 2.5],
+  coeffI: [0, 2.5],
+  coeffD: [0, 2.5],
   stabilizationTemp: [20, 80],
 };
 
