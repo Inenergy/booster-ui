@@ -99,5 +99,12 @@
   "script": "алгоритм",
   "script executed!": "автоматическое исполнение завершено!",
   "value": "значение",
-  "short circuit allowed": "КЗ разрешено"
+  "short circuit allowed": "КЗ разрешено",
+  "stabilization mode": "режим стабилизации",
+  "stabilize max": "по верхней",
+  "stabilize mid": "по средней",
+  "stabilize off": "стаб откл, вент макс",
+  "P stabilization coefficient": "Коэффициент стаб. P",
+  "I stabilization coefficient": "Коэффициент стаб. I",
+  "D stabilization coefficient": "Коэффициент стаб. D"
 }

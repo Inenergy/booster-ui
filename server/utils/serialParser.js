@@ -12,7 +12,7 @@ const dataMap = clone(SERIAL_DATA);
 
 function validate(buffer) {
   if (buffer.indexOf(SEPARATORS) != 0 || buffer.length != DATA_BYTE_LENGTH)
-    throw new Error('Invalid buffer recieved');
+    throw new Error('Unexpected package length');
 }
 
 module.exports = function parse(buf) {

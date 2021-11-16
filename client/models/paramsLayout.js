@@ -11,18 +11,6 @@ module.exports = [
       ],
     },
     {
-      title: 'valve',
-      inputs: [
-        'blowDelay',
-        'blowDuration',
-        'firstPurgeDuration',
-        'firstPurgeDelay',
-        'firstPurgeCycles',
-      ],
-    },
-  ],
-  [
-    {
       inputs: [
         'maxTemp',
         'minPressure',
@@ -33,6 +21,18 @@ module.exports = [
       ],
       checkboxes: ['shortCircuitAllowed'],
     },
+  ],
+  [
+    {
+      title: 'valve',
+      inputs: [
+        'blowDelay',
+        'blowDuration',
+        'firstPurgeDuration',
+        'firstPurgeDelay',
+        'firstPurgeCycles',
+      ],
+    },
     {
       title: 'fan',
       inputs: ['fanMinRPM', 'fanLoad'],
@@ -41,6 +41,16 @@ module.exports = [
   [
     {
       title: 'temperatures',
+      selects: [
+        {
+          name: 'stabilizationMode',
+          options: [
+            { value: 1, label: 'stabilize max' },
+            { value: 2, label: 'stabilize mid' },
+            { value: 3, label: 'stabilize off' },
+          ],
+        },
+      ],
       values: [
         { name: 'temp1', maxCompare: 'maxTemp' },
         { name: 'temp2', maxCompare: 'maxTemp' },
@@ -50,7 +60,13 @@ module.exports = [
         { name: 'radiatorTemp1' },
         { name: 'radiatorTemp2' },
       ],
-      inputs: ['tempSensorK'],
+      inputs: [
+        'tempSensorK',
+        'stabilizationTemp',
+        'coeffP',
+        'coeffI',
+        'coeffD',
+      ],
     },
   ],
 ];

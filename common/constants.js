@@ -23,7 +23,12 @@ const STATE_DATA = [
   { name: 'shortCircuitAllowed', label: 'short circuit allowed' },
   { name: 'maxPressure', label: 'max pressure', divider: 100, units: 'bar' },
   { name: 'firstPurgeDelay', label: 'first purge delay', units: 's' },
-  { name: 'firstPurgeCycles', label: 'first purge cycles' },
+  { name: 'firstPurgeCycles', label: 'first purge cycles'},
+  { name: 'coeffP', label: 'P stabilization coefficient' },
+  { name: 'coeffI', label: 'I stabilization coefficient' },
+  { name: 'coeffD', label: 'D stabilization coefficient' },
+  { name: 'stabilizationTemp', label: 'stabilization temperature' },
+  { name: 'stabilizationMode', label: 'stabilization mode' },
 ];
 
 const PARAMS_DATA = [
@@ -149,6 +154,11 @@ const COMMANDS = {
   firstPurgeCycles: (v) => [104, v],
   maxPressure: (v) => [108, Math.round(v * 100)],
   tempSensorK: (v) => [112, v],
+  coeffP: v => [116, 100 * v],
+  coeffI: v => [120, 100 * v],
+  coeffD: v => [124, 100 * v],
+  stabilizationMode: v => [128, v],
+  stabilizationMode: v => [132, v]
 };
 
 const CONSTRAINTS = {
@@ -164,13 +174,17 @@ const CONSTRAINTS = {
   maxTemp: [-10, 100],
   minPressure: [-1, 4],
   minVoltage: [-10, 100],
-  shortCircuitDuration: [0, 200],
+  shortCircuitDuration: [0, 50000],
   shortCircuitDelay: [0, 100],
   firstPurgeDuration: [0, 60000],
   firstPurgeDelay: [0, 250],
   firstPurgeCycles: [0, 250],
   maxPressure: [0, 2],
   tempSensorK: [1000, 5000],
+  coeffP: [0.1, 2.5],
+  coeffI: [0.1, 2.5],
+  coeffD: [0.1, 2.5],
+  stabilizationTemp: [20, 80],
 };
 
 const STEPS = {
@@ -198,6 +212,9 @@ const STEPS = {
   firstPurgeCycles: 1,
   maxPressure: 0.01,
   tempSensorK: 1,
+  coeffP: 0.05,
+  coeffI: 0.05,
+  coeffD: 0.05,
 };
 
 const LOGGED_VALUES = [

@@ -42,7 +42,7 @@
 <div class="layout" id="parameters">
   {#each blocks as column, idx}
     <div class="col-{idx}">
-      {#if idx === 2}
+      {#if idx === 1}
         <h3>{$__('load')}</h3>
         <LoadModeSelector />
       {/if}
@@ -105,10 +105,8 @@
           {/each}
         {/if}
       {/each}
-      {#if idx == 1}
-        <ElapsedTimer />
-      {/if}
       {#if idx == 0}
+        <ElapsedTimer />
         <a href={$logExists ? './log' : void 0}>{$__('get log')}</a>
       {/if}
     </div>

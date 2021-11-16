@@ -34,7 +34,11 @@ function sendCommand(id, cmd) {
   const buf = Buffer.alloc(5);
   buf[0] = 40;
   buf[1] = id;
-  buf.writeInt16BE(cmd, 2);
+  try {
+    buf[cmd > 2 ** 15 ? 'writeUint16BE' : 'writeInt16BE'](cmd, 2);
+  } catch {
+    console.error(`${id} value ${cmd} is out of range!!`);
+  }
   buf[4] = buf[0] + buf[1] + buf[2] + buf[3];
   console.log('Pushing command to queue:', id, ':', cmd);
   commandQueue.push(buf);
@@ -61,7 +65,7 @@ function writeCommandFromQueue() {
       }
     } else {
       failedAttempts = 0;
-      serial.emit('command sent')
+      serial.emit('command sent');
     }
     if (Date.now() - startTx < 200) {
       setTimeout(writeCommandFromQueue, 200);
