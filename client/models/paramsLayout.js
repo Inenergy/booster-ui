@@ -52,7 +52,6 @@ module.exports = [
         },
       ],
       values: [
-        { name: 'currentStabilizationTemp' },
         { name: 'temp1', maxCompare: 'maxTemp' },
         { name: 'temp2', maxCompare: 'maxTemp' },
         { name: 'temp3', maxCompare: 'maxTemp' },

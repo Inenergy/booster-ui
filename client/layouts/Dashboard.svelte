@@ -73,7 +73,11 @@
               units={$__(initialData[name].units, true)}
               {name}
               onChange={sendCommand}
-            />
+            >
+              {#if name == 'stabilizationTemp'}
+                <span class="input-prefix">{$serialData.currentStabilizationTemp.value}/</span>
+              {/if}
+            </RangeInput>
           {/each}
         {/if}
         {#if block.checkboxes}
@@ -122,6 +126,14 @@
     height: 100vh;
   }
 
+  .input-prefix {
+    margin-left: auto;
+    display: inline-block;
+    text-align: right;
+    font-weight: 500;
+    min-width: 5rem;
+    font-size: 2rem;
+  }
   .hint {
     display: block;
     font-size: 1rem;

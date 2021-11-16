@@ -56,13 +56,15 @@
 {/if}
 <label {style}>
   {#if label}
-    <span class="label">
-      {label + (units ? ', ' + units : '')}
+    <span class="label-wrapper">
+      <span class="label">
+        {label + (units ? ', ' + units : '')}
+      </span>
       {#if errorMessage}
         <span class="error">{errorMessage}</span>
       {/if}
-      <slot />
     </span>
+    <slot />
   {/if}
   <input
     type="number"

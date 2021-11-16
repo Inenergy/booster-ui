@@ -37,8 +37,8 @@ function sendData() {
 }
 
 function generateData() {
-  for (const key of ['FCVoltage', 'FCCurrent', 'FCPower'])
-    dataMap[key].value = +(Math.random() * 100).toFixed(3);
+  for (const key of ['FCVoltage', 'FCCurrent', 'FCPower', 'currentStabilizationTemp'])
+    dataMap[key].value = +(Math.random() * 100).toFixed(1);
   dataMap.loadMode.value = 2;
   return dataMap;
 }
