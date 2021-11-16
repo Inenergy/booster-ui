@@ -56,7 +56,7 @@
               {options}
               {name}
               onChange={sendCommand}
-              defaultValue={initialData[name].value}
+              value={$serialData[name].value}
               label={$__(initialData[name].label)}
             />
           {/each}
