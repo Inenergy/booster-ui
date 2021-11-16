@@ -167,7 +167,6 @@ const CONSTRAINTS = {
   blowDelay: [1, 200],
   blowDuration: [20, 10000],
   fanLoad: [0, 100],
-  stabilizationTemp: [20, 60],
   current: [0, 100],
   voltage: [0, 100],
   power: [10, 1500],
