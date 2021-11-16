@@ -52,6 +52,7 @@ module.exports = [
         },
       ],
       values: [
+        { name: 'currentStabilizationTemp' },
         { name: 'temp1', maxCompare: 'maxTemp' },
         { name: 'temp2', maxCompare: 'maxTemp' },
         { name: 'temp3', maxCompare: 'maxTemp' },
@@ -61,11 +62,11 @@ module.exports = [
         { name: 'radiatorTemp2' },
       ],
       inputs: [
-        'tempSensorK',
         'stabilizationTemp',
         'coeffP',
         'coeffI',
         'coeffD',
+        'tempSensorK',
       ],
     },
   ],

@@ -106,5 +106,6 @@
   "stabilize off": "стаб откл, вент макс",
   "P stabilization coefficient": "Коэффициент стаб. P",
   "I stabilization coefficient": "Коэффициент стаб. I",
-  "D stabilization coefficient": "Коэффициент стаб. D"
+  "D stabilization coefficient": "Коэффициент стаб. D",
+  "current stabilization temperature": "Текущая температура стабилизации"
 }
