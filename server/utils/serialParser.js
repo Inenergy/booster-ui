@@ -35,7 +35,6 @@ module.exports = function parse(buf) {
     dataMap[STATE_DATA[j].name].value = buf[i++] / divider;
   }
   dataMap.start.value = dataMap.start.value !== 127;
-  checkSum += 256; // FIX ME
   checkSum = checkSum % Math.pow(2, 16);
   if (checkSum != buf.readUInt16BE(i)) {
     throw new Error(
