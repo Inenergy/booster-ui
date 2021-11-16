@@ -24,14 +24,15 @@ module.exports = function parse(buf) {
     i += 2;
   }
   for (let j = 0; j < PARAMS_DATA.length; j++) {
-    const { name, divider = 1 } = PARAMS_DATA[j];
-    dataMap[name].value = +(buf.readInt16BE(i) / divider).toPrecision(4);
-    checkSum += buf.readInt16BE(i);
+    const { name, divider = 1, singed } = PARAMS_DATA[j];
+    let value = singed ? buf.readUInt16BE(i) : buf.readInt16BE(i);
+    dataMap[name].value = +(value / divider).toPrecision(4);
+    checkSum += value;
     i += 2;
   }
   for (let j = 0; j < STATE_DATA.length; j++) {
     checkSum += buf[i];
-    const divider = STATE_DATA[j].divider || 1
+    const divider = STATE_DATA[j].divider || 1;
     dataMap[STATE_DATA[j].name].value = buf[i++] / divider;
   }
   dataMap.start.value = dataMap.start.value !== 127;
