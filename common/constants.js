@@ -28,6 +28,7 @@ const STATE_DATA = [
   { name: 'coeffI', label: 'I stabilization coefficient' },
   { name: 'coeffD', label: 'D stabilization coefficient' },
   { name: 'stabilizationTemp', label: 'stabilization temperature' },
+  { name: 'currentStabilizationTemp', label: 'current stabilization temperature' },
   { name: 'stabilizationMode', label: 'stabilization mode' },
 ];
 
