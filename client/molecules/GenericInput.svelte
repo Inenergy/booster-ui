@@ -8,8 +8,8 @@
   export let value = '';
   export let onChange = Function.prototype;
   const id = uuid();
-  $: min = range[0];
-  $: max = range[1];
+  $: max = Math.max(...range);
+  $: min = Math.min(...range);
   $: if (!range) range = [0, 100];
   function normalizeValue() {
     value = Math.max(min, Math.min(value, max));
