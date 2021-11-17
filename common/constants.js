@@ -176,7 +176,7 @@ const CONSTRAINTS = {
   maxTemp: [-10, 100],
   minPressure: [-1, 4],
   minVoltage: [-10, 100],
-  shortCircuitDuration: [0, 50000],
+  shortCircuitDuration: [10, 50000],
   shortCircuitDelay: [0, 100],
   firstPurgeDuration: [0, 60000],
   firstPurgeDelay: [0, 250],
