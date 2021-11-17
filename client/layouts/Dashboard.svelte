@@ -11,6 +11,7 @@
   import loadModeOptions from '../models/loadModeOptions';
   import ElapsedTimer from '../molecules/ElapsedTimer.svelte';
   import Checkbox from '../molecules/Checkbox.svelte';
+  import StabilizationModeSelector from '../organisms/StabilizationModeSelector.svelte';
 
   const initialData = $serialData;
 
@@ -75,7 +76,9 @@
               onChange={sendCommand}
             >
               {#if name == 'stabilizationTemp'}
-                <span class="input-prefix">{$serialData.currentStabilizationTemp.value}/</span>
+                <span class="input-prefix"
+                  >{$serialData.currentStabilizationTemp.value}/</span
+                >
               {/if}
             </RangeInput>
           {/each}
@@ -112,6 +115,8 @@
       {#if idx == 0}
         <ElapsedTimer />
         <a href={$logExists ? './log' : void 0}>{$__('get log')}</a>
+      {:else if idx == 2}
+        <StabilizationModeSelector />
       {/if}
     </div>
   {/each}

@@ -161,6 +161,7 @@ const COMMANDS = {
   coeffI: (v) => [120, 100 * v],
   coeffD: (v) => [124, 100 * v],
   stabilizationMode: (v) => [132, v],
+  selectTemperatures: (v) => [136, v],
 };
 
 const CONSTRAINTS = {

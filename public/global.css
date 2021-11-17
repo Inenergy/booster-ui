@@ -122,7 +122,8 @@ h4 {
   font-size: 2rem;
 }
 
-input {
+input[type='text'],
+input[type='number'] {
   border-radius: 0.4rem;
   height: 3.2rem;
   padding: 0 1.2rem;
@@ -152,7 +153,6 @@ input:focus {
   align-items: center;
   height: 100%;
 }
-
 
 input.hidden {
   position: absolute;

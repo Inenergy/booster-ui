@@ -41,25 +41,7 @@ module.exports = [
   [
     {
       title: 'temperatures',
-      selects: [
-        {
-          name: 'stabilizationMode',
-          options: [
-            { value: 1, label: 'stabilize max' },
-            { value: 2, label: 'stabilize mid' },
-            { value: 3, label: 'stabilize off' },
-          ],
-        },
-      ],
-      values: [
-        { name: 'temp1', maxCompare: 'maxTemp' },
-        { name: 'temp2', maxCompare: 'maxTemp' },
-        { name: 'temp3', maxCompare: 'maxTemp' },
-        { name: 'temp4', maxCompare: 'maxTemp' },
-        { name: 'temp5', maxCompare: 'maxTemp' },
-        { name: 'radiatorTemp1' },
-        { name: 'radiatorTemp2' },
-      ],
+      values: [{ name: 'radiatorTemp1' }, { name: 'radiatorTemp2' }],
       inputs: [
         'stabilizationTemp',
         'coeffP',
