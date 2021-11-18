@@ -47,7 +47,7 @@ const executor = new Executor((param, value) => {
   if (LOAD_MODES.includes(param)) {
     let newMode = LOAD_MODES.indexOf(param);
     if (currentMode !== newMode) {
-       serial.sendCommand(...COMMANDS.loadMode(newMode));
+      serial.sendCommand(...COMMANDS.loadMode(newMode));
     }
     serial.sendCommand(...COMMANDS.load(value));
   } else {
@@ -182,16 +182,19 @@ app.use(
   json()
 );
 app.get('/log', (req, res) => {
-  try {
-    const log = fs.createReadStream(logger.logPath);
-    send(res, 206, log, {
-      'Content-Disposition': `attachment; filename=${logger.logName}`,
+  fs.promises
+    .readFile(logger.logPath, 'ascii')
+    .then((data) => {
+      send(res, 200, data, {
+        'Content-type': 'text/plain; charset=ascii',
+        'Content-Disposition': `attachment; filename=${logger.logName}`,
+      });
+    })
+    .catch((err) => {
+      console.error(err);
+      res.statusCode = 500;
+      res.end();
     });
-  } catch (err) {
-    console.error(err);
-    res.statusCode = 500;
-    res.end();
-  }
 });
 
 function disableCache(res, path) {
