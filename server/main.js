@@ -182,19 +182,16 @@ app.use(
   json()
 );
 app.get('/log', (req, res) => {
-  fs.promises
-    .readFile(logger.logPath, 'ascii')
-    .then((data) => {
-      send(res, 200, data, {
-        'Content-type': 'text/plain; charset=ascii',
-        'Content-Disposition': `attachment; filename=${logger.logName}`,
-      });
-    })
-    .catch((err) => {
-      console.error(err);
-      res.statusCode = 500;
-      res.end();
+  try {
+    const log = fs.createReadStream(logger.logPath, 'ascii');
+    send(res, 206, log, {
+      'Content-Disposition': `attachment; filename=${logger.logName}`,
     });
+  } catch (err) {
+    console.error(err);
+    res.statusCode = 500;
+    res.end();
+  }
 });
 
 function disableCache(res, path) {
