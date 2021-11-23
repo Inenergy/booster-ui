@@ -18,8 +18,8 @@
 </script>
 
 <Version />
+<UpdateModal />
 {#if $appInitialized}
-  <UpdateModal />
   <BlockID />
   <Dashboard />
   <Charts />

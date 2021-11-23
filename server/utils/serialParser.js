@@ -12,7 +12,7 @@ const dataMap = clone(SERIAL_DATA);
 
 function validate(buffer) {
   if (buffer.indexOf(SEPARATORS) != 0 || buffer.length != DATA_BYTE_LENGTH)
-    throw new Error('Invalid buffer recieved');
+    throw new Error('Unexpected package length');
 }
 
 module.exports = function parse(buf) {
@@ -24,14 +24,16 @@ module.exports = function parse(buf) {
     i += 2;
   }
   for (let j = 0; j < PARAMS_DATA.length; j++) {
-    const { name, divider = 1 } = PARAMS_DATA[j];
-    dataMap[name].value = +(buf.readInt16BE(i) / divider).toPrecision(4);
-    checkSum += buf.readInt16BE(i);
+    const { name, divider = 1, signed } = PARAMS_DATA[j];
+    let value = signed ? buf.readInt16BE(i) : buf.readUInt16BE(i);
+    dataMap[name].value = +(value / divider).toPrecision(4);
+    checkSum += value;
     i += 2;
   }
   for (let j = 0; j < STATE_DATA.length; j++) {
     checkSum += buf[i];
-    dataMap[STATE_DATA[j].name].value = buf[i++];
+    const divider = STATE_DATA[j].divider || 1;
+    dataMap[STATE_DATA[j].name].value = buf[i++] / divider;
   }
   dataMap.start.value = dataMap.start.value !== 127;
   checkSum = checkSum % Math.pow(2, 16);

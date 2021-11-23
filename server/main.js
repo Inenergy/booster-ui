@@ -47,7 +47,7 @@ const executor = new Executor((param, value) => {
   if (LOAD_MODES.includes(param)) {
     let newMode = LOAD_MODES.indexOf(param);
     if (currentMode !== newMode) {
-       serial.sendCommand(...COMMANDS.loadMode(newMode));
+      serial.sendCommand(...COMMANDS.loadMode(newMode));
     }
     serial.sendCommand(...COMMANDS.load(value));
   } else {
@@ -183,7 +183,7 @@ app.use(
 );
 app.get('/log', (req, res) => {
   try {
-    const log = fs.createReadStream(logger.logPath);
+    const log = fs.createReadStream(logger.logPath, 'ascii');
     send(res, 206, log, {
       'Content-Disposition': `attachment; filename=${logger.logName}`,
     });

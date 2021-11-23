@@ -11,18 +11,26 @@ module.exports = [
       ],
     },
     {
-      title: 'valve',
-      inputs: ['blowDelay', 'blowDuration'],
+      inputs: [
+        'maxTemp',
+        'minPressure',
+        'maxPressure',
+        'minVoltage',
+        'shortCircuitDuration',
+        'shortCircuitDelay',
+      ],
+      checkboxes: ['shortCircuitAllowed'],
     },
   ],
   [
     {
+      title: 'valve',
       inputs: [
-        'maxTemp',
-        'minPressure',
-        'minVoltage',
-        'shortCircuitDuration',
-        'shortCircuitDelay',
+        'blowDelay',
+        'blowDuration',
+        'firstPurgeDuration',
+        'firstPurgeDelay',
+        'firstPurgeCycles',
       ],
     },
     {
@@ -33,10 +41,13 @@ module.exports = [
   [
     {
       title: 'temperatures',
-      values: [
-        { name: 'temp1', maxCompare: 'maxTemp' },
-        { name: 'temp2', maxCompare: 'maxTemp' },
-        { name: 'radiatorTemp1' },
+      values: [{ name: 'radiatorTemp1' }, { name: 'radiatorTemp2' }],
+      inputs: [
+        'stabilizationTemp',
+        'coeffP',
+        'coeffI',
+        'coeffD',
+        'tempSensorK',
       ],
     },
   ],

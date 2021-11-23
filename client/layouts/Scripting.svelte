@@ -35,7 +35,8 @@
           'step',
           'stepTime',
         ]) ||
-        step.max <= step.min
+        step.max <= step.min ||
+        step.step > step.max - step.min
       )
         return false;
     }
@@ -154,7 +155,7 @@
                 name={`step-${i}`}
                 range={[
                   STEPS[step.param],
-                  decimalAdjust('round', step.max - step.min, -1),
+                  decimalAdjust('round', Math.abs(step.max - step.min), -1),
                 ]}
                 step={STEPS[step.param]}
               /></td

@@ -37,16 +37,20 @@ function sendData() {
 }
 
 function generateData() {
-  for (const key of ['FCVoltage', 'FCCurrent', 'FCPower'])
-    dataMap[key].value = +(Math.random() * 100).toFixed(3);
-  dataMap.loadMode.value = Math.round(Math.random());
+  for (const key of ['FCVoltage', 'FCCurrent', 'FCPower', 'currentStabilizationTemp'])
+    dataMap[key].value = +(Math.random() * 100).toFixed(1);
+  dataMap.loadMode.value = 2;
   return dataMap;
 }
 
 emitter.sendCommand = (...cmd) => {
   buf = Buffer.alloc(3);
   buf[0] = cmd[0];
-  buf.writeInt16BE(cmd[1], 1);
+  try {
+    buf[cmd[1] > 2 ** 15 ? 'writeUInt16BE' : 'writeInt16BE'](cmd[1], 1);
+  } catch {
+    console.error(`${cmd[0]} value ${cmd[1]} is out of range!!`);
+  }
   console.log('Sending command to serial:', buf);
   emitter.emit('command sent');
 };

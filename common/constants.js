@@ -3,16 +3,9 @@ const STATE_DATA = [
   { label: 'load mode', name: 'loadMode' },
   { label: 'temperature stabilization', name: 'boostMode' },
   {
-    label: 'short circuit duration',
-    units: 'ms',
-    name: 'shortCircuitDuration',
-    prefix: 'KZ ',
-  },
-  {
     label: 'short circuit delay',
     units: 's',
     name: 'shortCircuitDelay',
-    prefix: 'KZ ',
   },
   {
     label: 'purge before short ciricuit',
@@ -26,9 +19,20 @@ const STATE_DATA = [
   { name: 'pressureError' },
   { name: 'voltageError' },
   { name: 'stopPressed' },
+  { name: 'overheatError' },
+  { name: 'shortCircuitAllowed', label: 'short circuit allowed' },
+  { name: 'maxPressure', label: 'max pressure', divider: 100, units: 'bar' },
+  { name: 'firstPurgeDelay', label: 'first purge delay', units: 's' },
+  { name: 'firstPurgeCycles', label: 'first purge cycles' },
+  { name: 'coeffP', label: 'P stabilization coefficient', divider: 100 },
+  { name: 'coeffI', label: 'I stabilization coefficient', divider: 100 },
+  { name: 'coeffD', label: 'D stabilization coefficient', divider: 100 },
+  {
+    name: 'currentStabilizationTemp',
+    label: 'current stabilization temperature',
+  },
+  { name: 'stabilizationMode', label: 'stabilization mode' },
 ];
-
-const TERMINATE_SIGNALS = STATE_DATA.slice(-4).map((v) => v.name);
 
 const PARAMS_DATA = [
   {
@@ -114,6 +118,20 @@ const PARAMS_DATA = [
     name: 'hydrogenConsumption',
     signed: true,
   },
+  {
+    label: 'short circuit duration',
+    units: 'ms',
+    name: 'shortCircuitDuration',
+  },
+  {
+    label: 'NTC coefficient',
+    name: 'tempSensorK',
+  },
+  {
+    label: 'first purge duration',
+    units: 'ms',
+    name: 'firstPurgeDuration',
+  },
 ];
 
 const DATA_BYTE_LENGTH = STATE_DATA.length + PARAMS_DATA.length * 2 + 6; // last six bytes sent for validation
@@ -133,13 +151,23 @@ const COMMANDS = {
   startCalibration: () => [80, 0],
   shortCircuitDuration: (v) => [84, v],
   shortCircuitDelay: (v) => [88, v],
+  shortCircuitAllowed: (v) => [92, v],
+  firstPurgeDuration: (v) => [96, v],
+  firstPurgeDelay: (v) => [100, v],
+  firstPurgeCycles: (v) => [104, v],
+  maxPressure: (v) => [108, Math.round(v * 100)],
+  tempSensorK: (v) => [112, v],
+  coeffP: (v) => [116, 100 * v],
+  coeffI: (v) => [120, 100 * v],
+  coeffD: (v) => [124, 100 * v],
+  stabilizationMode: (v) => [132, v],
+  selectTemperatures: (v) => [136, v],
 };
 
 const CONSTRAINTS = {
   blowDelay: [1, 200],
   blowDuration: [20, 10000],
   fanLoad: [0, 100],
-  stabilizationTemp: [20, 60],
   current: [0, 100],
   voltage: [0, 100],
   power: [10, 1500],
@@ -148,8 +176,17 @@ const CONSTRAINTS = {
   maxTemp: [-10, 100],
   minPressure: [-1, 4],
   minVoltage: [-10, 100],
-  shortCircuitDuration: [0, 200],
+  shortCircuitDuration: [10, 50000],
   shortCircuitDelay: [0, 100],
+  firstPurgeDuration: [0, 60000],
+  firstPurgeDelay: [0, 250],
+  firstPurgeCycles: [0, 250],
+  maxPressure: [0, 2],
+  tempSensorK: [1000, 5000],
+  coeffP: [0, 2.5],
+  coeffI: [0, 2.5],
+  coeffD: [0, 2.5],
+  stabilizationTemp: [20, 80],
 };
 
 const STEPS = {
@@ -172,6 +209,14 @@ const STEPS = {
   timeStep: 1,
   shortCircuitDelay: 1,
   shortCircuitDuration: 1,
+  firstPurgeDuration: 10,
+  firstPurgeDelay: 1,
+  firstPurgeCycles: 1,
+  maxPressure: 0.01,
+  tempSensorK: 1,
+  coeffP: 0.05,
+  coeffI: 0.05,
+  coeffD: 0.05,
 };
 
 const LOGGED_VALUES = [
@@ -196,11 +241,11 @@ const LOGGED_VALUES = [
 
 const ALGORITHM_PARAM = [
   { value: 'none', label: 'load disabled' },
-  { value: 'current', label: 'current' },
-  { value: 'voltage', label: 'voltage' },
-  { value: 'blowDuration', label: 'purge duration' },
-  { value: 'blowDelay', label: 'purge delay' },
-  { value: 'fanLoad', label: 'fan load' },
+  { value: 'current', label: 'current', units: 'A' },
+  { value: 'voltage', label: 'voltage', units: 'V' },
+  { value: 'blowDuration', label: 'purge duration', units: 'ms' },
+  { value: 'blowDelay', label: 'purge delay', units: 's' },
+  { value: 'fanLoad', label: 'fan load', units: '%' },
 ];
 
 const SERIAL_DATA = {
@@ -215,18 +260,12 @@ function addParamToMap(param) {
 }
 
 const SIGNALS = {
-  tempError: 'Vysokaya temperatura, ostanovka\n',
-  pressureError: 'Nizkoe davlenie, ostanovka\n',
-  voltageError: 'Nizkoe napryazenie, ostanovka\n',
+  tempError: 'High temperature, stop\n',
+  pressureError: 'Low pressure, stop\n',
+  voltageError: 'Low voltage, stop\n',
   stopPressed: 'Reset all prameters\n',
+  overheatError: 'Overheat, stop\n',
 };
-
-const STOP_BITS = [
-  '',
-  'Razgon zavershen, snyatie VAH\n',
-  'Snyatie VAH zaversheno, holostoi hod\n',
-  'Okonchanie avtorazgona\n\n\n\n',
-];
 
 const BOOST_MODES = ['manual fan', 'auto fan', 'manual temp', 'auto temp'];
 
@@ -249,9 +288,7 @@ module.exports = {
   STEPS,
   LOGGED_VALUES,
   SERIAL_DATA,
-  TERMINATE_SIGNALS,
   SIGNALS,
-  STOP_BITS,
   BOOST_MODES,
   ALGORITHM_PARAM,
   ALGORITHM_DIRECTIONS,

@@ -24,6 +24,7 @@
   {:else}
     <div class="spacer" />
   {/if}
+  <slot />
 </div>
 
 <style>
@@ -36,6 +37,7 @@
   .value {
     min-width: 7rem;
     margin-left: auto;
+    text-align: right;
   }
   .error {
     color: var(--danger-color);

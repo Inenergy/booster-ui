@@ -122,7 +122,8 @@ h4 {
   font-size: 2rem;
 }
 
-input {
+input[type='text'],
+input[type='number'] {
   border-radius: 0.4rem;
   height: 3.2rem;
   padding: 0 1.2rem;
@@ -153,7 +154,6 @@ input:focus {
   height: 100%;
 }
 
-
 input.hidden {
   position: absolute;
   top: -9999px;
@@ -169,7 +169,7 @@ input.hidden {
 
 @media screen and (max-width: 1280px) {
   html {
-    font-size: 62.5%;
+    font-size: 55%;
   }
   nav {
     font-size: 2.4rem;

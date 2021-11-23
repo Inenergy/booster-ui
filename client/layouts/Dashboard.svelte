@@ -2,6 +2,7 @@
   import blocks from '../models/paramsLayout';
   import { COMMANDS, STEPS, CONSTRAINTS } from '../../common/constants';
   import { serialData, logExists } from '../stores';
+  import LoadModeSelector from '../organisms/LoadModeSelector.svelte';
   import Select from '../molecules/ControledSelect.svelte';
   import Value from '../atoms/Value.svelte';
   import RangeInput from '../molecules/RangeInput.svelte';
@@ -9,6 +10,8 @@
   import { __ } from '../utils/translator';
   import loadModeOptions from '../models/loadModeOptions';
   import ElapsedTimer from '../molecules/ElapsedTimer.svelte';
+  import Checkbox from '../molecules/Checkbox.svelte';
+  import StabilizationModeSelector from '../organisms/StabilizationModeSelector.svelte';
 
   const initialData = $serialData;
 
@@ -21,6 +24,7 @@
     'currentStep',
     'endCurrent',
     'timeStep',
+    'maxPressure',
   ];
 
   $: selectedLoadMode =
@@ -39,27 +43,9 @@
 <div class="layout" id="parameters">
   {#each blocks as column, idx}
     <div class="col-{idx}">
-      {#if idx === 2}
+      {#if idx === 1}
         <h3>{$__('load')}</h3>
-        <Select
-          onChange={selectLoadMode}
-          name="loadMode"
-          defaultValue={$serialData.loadMode.value}
-          label={$__($serialData.loadMode.label)}
-          options={loadModeOptions}
-        />
-        {#if selectedLoadMode.value}
-          <RangeInput
-            name="load"
-            currentValue={$serialData.load.value}
-            step={STEPS[selectedLoadMode.name]}
-            label={$__(selectedLoadMode.label) + ', ' + $__(selectedLoadMode.units)}
-            range={CONSTRAINTS[selectedLoadMode.name]}
-            onChange={sendCommand}
-          />
-        {:else}
-          <div class="input-placeholder" />
-        {/if}
+        <LoadModeSelector />
       {/if}
       {#each column as block}
         <h3>
@@ -71,7 +57,7 @@
               {options}
               {name}
               onChange={sendCommand}
-              defaultValue={initialData[name].value}
+              value={$serialData[name].value}
               label={$__(initialData[name].label)}
             />
           {/each}
@@ -86,6 +72,24 @@
               currentValue={$serialData[name].value}
               label={$__(initialData[name].label)}
               units={$__(initialData[name].units, true)}
+              {name}
+              onChange={sendCommand}
+            >
+              {#if name == 'stabilizationTemp'}
+                <span class="input-prefix"
+                  >{$serialData.currentStabilizationTemp.value}/</span
+                >
+              {/if}
+            </RangeInput>
+          {/each}
+        {/if}
+        {#if block.checkboxes}
+          {#each block.checkboxes as name}
+            <Checkbox
+              disabled={$serialData.start.value &&
+                disabledOnStart.includes(name)}
+              checked={$serialData[name].value}
+              label={$__(initialData[name].label)}
               {name}
               onChange={sendCommand}
             />
@@ -111,6 +115,8 @@
       {#if idx == 0}
         <ElapsedTimer />
         <a href={$logExists ? './log' : void 0}>{$__('get log')}</a>
+      {:else if idx == 2}
+        <StabilizationModeSelector />
       {/if}
     </div>
   {/each}
@@ -125,6 +131,14 @@
     height: 100vh;
   }
 
+  .input-prefix {
+    margin-left: auto;
+    display: inline-block;
+    text-align: right;
+    font-weight: 500;
+    min-width: 5rem;
+    font-size: 2rem;
+  }
   .hint {
     display: block;
     font-size: 1rem;

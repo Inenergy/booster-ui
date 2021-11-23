@@ -6,6 +6,7 @@
   import loadModeOptions from '../models/loadModeOptions';
   import Select from '../molecules/Select.svelte';
   import startParams from '../models/startParams';
+  import Checkbox from '../molecules/Checkbox.svelte';
   export let onChange;
 </script>
 
@@ -22,6 +23,8 @@
           defaultValue={params[param]}
         />
       </div>
+    {:else if param === 'shortCircuitAllowed'}
+      <Checkbox name={param} label={$__(SERIAL_DATA[param].label)} {onChange} />
     {:else}
       <Input
         type="number"

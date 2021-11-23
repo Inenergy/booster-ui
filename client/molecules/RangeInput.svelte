@@ -1,7 +1,7 @@
 <script>
   import { __ } from '../utils/translator';
   import Modal from './Modal.svelte';
-  export let range = [0, 100];
+  export let range = [-100, 100];
   export let disabled = false;
   export let onChange = Function.prototype;
   export let name = '';
@@ -56,13 +56,15 @@
 {/if}
 <label {style}>
   {#if label}
-    <span class="label">
-      {label + (units ? ', ' + units : '')}
+    <span class="label-wrapper">
+      <span class="label">
+        {label + (units ? ', ' + units : '')}
+      </span>
       {#if errorMessage}
         <span class="error">{errorMessage}</span>
       {/if}
-      <slot />
     </span>
+    <slot />
   {/if}
   <input
     type="number"
