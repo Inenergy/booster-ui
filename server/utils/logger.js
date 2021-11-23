@@ -78,7 +78,12 @@ function writeRow(boosterState) {
 function getLogRow(boosterState) {
   let row = [getFormatedDate('YYYY/MM/DD HH:mm:ss.ms')];
   row = row.concat(
-    LOGGED_VALUES.map((key) => boosterState[key].value).slice(0, -2)
+    LOGGED_VALUES.map(
+      (key) =>
+        `${boosterState[key].prefix || ''}${boosterState[key].value}${
+          boosterState[key].units || ''
+        }`
+    )
   );
   row.push(boosterState.isBlow.value ? 'P' : '-');
   row.push(boosterState.isShortCircuit.value ? 'SC' : '-');
