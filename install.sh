@@ -1,10 +1,10 @@
 npm i
 npm run build
 
-sudo echo "chromium-brower --incognito --app=http://localhost:6010" >> /etc/xdg/lxsession/LXDE-pi/autostart
+sudo echo "@chromium-brower --app=http://localhost:6010" >> /etc/xdg/lxsession/LXDE-pi/autostart
 mkdir ~/.config/openbox
 cat > ~/.config/openbox/lxde-pi-rc.xml << EOF
-<?xml version="1.0" encoding="UTF-8">
+<?xml version="1.0" encoding="UTF-8"?>
 <openbox_config xmlns="http://openbox.org/3.4/rc">
 <applications>
 <application class="Chromium-browser">
