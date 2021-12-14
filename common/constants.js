@@ -181,7 +181,7 @@ const CONSTRAINTS = {
   firstPurgeDuration: [0, 60000],
   firstPurgeDelay: [0, 250],
   firstPurgeCycles: [0, 250],
-  maxPressure: [0, 2],
+  maxPressure: [0, 1.5],
   tempSensorK: [1000, 5000],
   coeffP: [0, 2.5],
   coeffI: [0, 2.5],
