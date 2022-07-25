@@ -13,6 +13,7 @@
   import StabilizationModeSelector from '../organisms/StabilizationModeSelector.svelte';
 
   const initialData = $serialData;
+  let fanCoeff;
 
   const disabledOnStart = [
     'boostMode',
@@ -28,6 +29,11 @@
 
   function sendCommand(value, name) {
     wsClient.emit('serial command', ...COMMANDS[name](+value));
+  }
+
+  function setFanCoeff(value) {
+    fanCoeff = value;
+    wsClient.emit('serial command', ...COMMANDS.fanCoeff(+value));
   }
 </script>
 
@@ -102,7 +108,8 @@
             range={CONSTRAINTS.fanCoeff}
             label={$__(initialData.fanCoeff.label)}
             name="fanCoeff"
-            onChange={sendCommand} />
+            currentValue={fanCoeff}
+            onChange={setFanCoeff} />
         {/if}
       {:else if idx == 2}
         <StabilizationModeSelector />
