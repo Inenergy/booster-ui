@@ -11,7 +11,11 @@ const configManager = require('./configManager');
 const dataMap = clone(SERIAL_DATA);
 
 function validate(buffer) {
-  if (buffer.indexOf(SEPARATORS) != 0 || buffer.length != DATA_BYTE_LENGTH)
+  if (
+    buffer.indexOf(SEPARATORS) != 0 ||
+    buffer.length > DATA_BYTE_LENGTH ||
+    buffer.length < DATA_BYTE_LENGTH - 1
+  )
     throw new Error('Unexpected package length');
 }
 
@@ -19,10 +23,12 @@ module.exports = function parse(buf) {
   validate(buf);
   let i = 0;
   let checkSum = 0;
+
   while (i < SEPARATORS.length) {
     checkSum += buf.readUInt16BE(i);
     i += 2;
   }
+
   for (let j = 0; j < PARAMS_DATA.length; j++) {
     const { name, divider = 1, signed } = PARAMS_DATA[j];
     let value = signed ? buf.readInt16BE(i) : buf.readUInt16BE(i);
@@ -30,12 +36,14 @@ module.exports = function parse(buf) {
     checkSum += value;
     i += 2;
   }
-  for (let j = 0; j < STATE_DATA.length; j++) {
+
+  const bufferMargin = buf.length - DATA_BYTE_LENGTH;
+  for (let j = 0; j < STATE_DATA.length + bufferMargin; j++) {
     checkSum += buf[i];
     const divider = STATE_DATA[j].divider || 1;
     dataMap[STATE_DATA[j].name].value = buf[i++] / divider;
   }
-  dataMap.start.value = dataMap.start.value !== 127;
+
   checkSum = checkSum % Math.pow(2, 16);
   if (checkSum != buf.readUInt16BE(i)) {
     throw new Error(
@@ -44,6 +52,9 @@ module.exports = function parse(buf) {
       )}`
     );
   }
+
+  dataMap.start.value = dataMap.start.value !== 127;
+  dataMap.fanCoeff.value = dataMap.fanCoeff.value == 17;
   dataMap.FCPower.value = +Math.abs(
     dataMap.FCCurrent.value * dataMap.FCVoltage.value
   ).toPrecision(4);

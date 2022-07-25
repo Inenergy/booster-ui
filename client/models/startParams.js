@@ -5,6 +5,7 @@ const removedEntries = [
   'boostMode',
   'selectTemperatures',
   'stabilizationMode',
+  'fanCoeff',
 ];
 
 module.exports = Object.keys(COMMANDS).filter(

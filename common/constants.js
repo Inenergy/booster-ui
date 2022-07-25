@@ -32,6 +32,8 @@ const STATE_DATA = [
     label: 'current stabilization temperature',
   },
   { name: 'stabilizationMode', label: 'stabilization mode' },
+  { name: 'temperatureSelection', label: 'temerature selection' },
+  { name: 'fanCoeff', label: 'fan coefficient' },
 ];
 
 const PARAMS_DATA = [
@@ -41,11 +43,41 @@ const PARAMS_DATA = [
     name: 'blowDuration',
     prefix: 'P ',
   },
-  { label: 'temperature 1', units: 'C', name: 'temp1', divider: 10, signed: true },
-  { label: 'temperature 2', units: 'C', name: 'temp2', divider: 10, signed: true },
-  { label: 'temperature 3', units: 'C', name: 'temp3', divider: 10, signed: true },
-  { label: 'temperature 4', units: 'C', name: 'temp4', divider: 10, signed: true },
-  { label: 'temperature 5', units: 'C', name: 'temp5', divider: 10, signed: true },
+  {
+    label: 'temperature 1',
+    units: 'C',
+    name: 'temp1',
+    divider: 10,
+    signed: true,
+  },
+  {
+    label: 'temperature 2',
+    units: 'C',
+    name: 'temp2',
+    divider: 10,
+    signed: true,
+  },
+  {
+    label: 'temperature 3',
+    units: 'C',
+    name: 'temp3',
+    divider: 10,
+    signed: true,
+  },
+  {
+    label: 'temperature 4',
+    units: 'C',
+    name: 'temp4',
+    divider: 10,
+    signed: true,
+  },
+  {
+    label: 'temperature 5',
+    units: 'C',
+    name: 'temp5',
+    divider: 10,
+    signed: true,
+  },
   {
     label: 'fan load',
     units: '%',
@@ -134,7 +166,7 @@ const PARAMS_DATA = [
   },
 ];
 
-const DATA_BYTE_LENGTH = STATE_DATA.length + PARAMS_DATA.length * 2 + 6; // last six bytes sent for validation
+const DATA_BYTE_LENGTH = STATE_DATA.length + PARAMS_DATA.length * 2 + 4 + 2; // for bytes for separators + two bytes for check sum
 
 const COMMANDS = {
   loadMode: (v) => [4, v],
@@ -162,6 +194,7 @@ const COMMANDS = {
   coeffD: (v) => [124, 100 * v],
   stabilizationMode: (v) => [132, v],
   selectTemperatures: (v) => [136, v],
+  fanCoeff: (v) => [140, v],
 };
 
 const CONSTRAINTS = {
@@ -187,6 +220,7 @@ const CONSTRAINTS = {
   coeffI: [0, 2.5],
   coeffD: [0, 2.5],
   stabilizationTemp: [20, 80],
+  fanCoeff: [0, 255],
 };
 
 const STEPS = {
@@ -217,6 +251,7 @@ const STEPS = {
   coeffP: 0.05,
   coeffI: 0.05,
   coeffD: 0.05,
+  fanCoeff: 1,
 };
 
 const LOGGED_VALUES = [

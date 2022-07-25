@@ -8,7 +8,6 @@
   import RangeInput from '../molecules/RangeInput.svelte';
   import wsClient from '../utils/wsClient';
   import { __ } from '../utils/translator';
-  import loadModeOptions from '../models/loadModeOptions';
   import ElapsedTimer from '../molecules/ElapsedTimer.svelte';
   import Checkbox from '../molecules/Checkbox.svelte';
   import StabilizationModeSelector from '../organisms/StabilizationModeSelector.svelte';
@@ -27,16 +26,8 @@
     'maxPressure',
   ];
 
-  $: selectedLoadMode =
-    loadModeOptions[$serialData.loadMode.value] || loadModeOptions[0];
-
   function sendCommand(value, name) {
     wsClient.emit('serial command', ...COMMANDS[name](+value));
-  }
-
-  function selectLoadMode(mode) {
-    selectedLoadMode = loadModeOptions[mode];
-    wsClient.emit('serial command', ...COMMANDS.loadMode(+mode));
   }
 </script>
 
@@ -58,27 +49,24 @@
               {name}
               onChange={sendCommand}
               value={$serialData[name].value}
-              label={$__(initialData[name].label)}
-            />
+              label={$__(initialData[name].label)} />
           {/each}
         {/if}
         {#if block.inputs}
           {#each block.inputs as name}
             <RangeInput
-              disabled={$serialData.start.value &&
-                disabledOnStart.includes(name)}
+              disabled={$serialData.start.value && disabledOnStart.includes(name)}
               step={STEPS[name]}
               range={CONSTRAINTS[name]}
               currentValue={$serialData[name].value}
               label={$__(initialData[name].label)}
               units={$__(initialData[name].units, true)}
               {name}
-              onChange={sendCommand}
-            >
+              onChange={sendCommand}>
               {#if name == 'stabilizationTemp'}
-                <span class="input-prefix"
-                  >{$serialData.currentStabilizationTemp.value}/</span
-                >
+                <span class="input-prefix">
+                  {$serialData.currentStabilizationTemp.value}/
+                </span>
               {/if}
             </RangeInput>
           {/each}
@@ -86,35 +74,36 @@
         {#if block.checkboxes}
           {#each block.checkboxes as name}
             <Checkbox
-              disabled={$serialData.start.value &&
-                disabledOnStart.includes(name)}
+              disabled={$serialData.start.value && disabledOnStart.includes(name)}
               checked={$serialData[name].value}
               label={$__(initialData[name].label)}
               {name}
-              onChange={sendCommand}
-            />
+              onChange={sendCommand} />
           {/each}
         {/if}
         {#if block.values}
           {#each block.values as val}
             <Value
-              error={val.maxCompare
-                ? $serialData[val.maxCompare].value <
-                  $serialData[val.name].value
-                : val.minCompare
-                ? $serialData[val.minCompare].value >
-                  $serialData[val.name].value
-                : false}
+              error={val.maxCompare ? $serialData[val.maxCompare].value < $serialData[val.name].value : val.minCompare ? $serialData[val.minCompare].value > $serialData[val.name].value : false}
               units={$__(initialData[val.name].units, true)}
               value={$serialData[val.name].value}
-              label={$__(initialData[val.name].label)}
-            />
+              label={$__(initialData[val.name].label)} />
           {/each}
         {/if}
       {/each}
       {#if idx == 0}
         <ElapsedTimer />
         <a href={$logExists ? './log' : void 0}>{$__('get log')}</a>
+      {:else if idx == 1}
+        {#if $serialData.fanCoeff}
+          <RangeInput
+            disabled={$serialData.start.value && disabledOnStart.includes('fanCoeff')}
+            step={STEPS.fanCoeff}
+            range={CONSTRAINTS.fanCoeff}
+            label={$__(initialData.fanCoeff.label)}
+            name="fanCoeff"
+            onChange={sendCommand} />
+        {/if}
       {:else if idx == 2}
         <StabilizationModeSelector />
       {/if}
