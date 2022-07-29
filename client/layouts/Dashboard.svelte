@@ -101,7 +101,7 @@
         <ElapsedTimer />
         <a href={$logExists ? './log' : void 0}>{$__('get log')}</a>
       {:else if idx == 1}
-        {#if $serialData.fanCoeff}
+        {#if $serialData.fanCoeff.value}
           <RangeInput
             disabled={$serialData.start.value && disabledOnStart.includes('fanCoeff')}
             step={STEPS.fanCoeff}
