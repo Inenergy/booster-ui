@@ -32,7 +32,7 @@ const STATE_DATA = [
     label: 'current stabilization temperature',
   },
   { name: 'stabilizationMode', label: 'stabilization mode' },
-  { name: 'temperatureSelection', label: 'temerature selection' },
+  // { name: 'temperatureSelection', label: 'temerature selection' },
   { name: 'fanCoeff', label: 'fan coefficient' },
 ];
 
