@@ -24,8 +24,8 @@ enable_uart=1
 Теперь переходим в директрорию с исходниками командой `cd booster-ui`. 
 Теперь запускаем установочный скрипт командами  
 ```sh
-chmod +x install.sh
-./install.sh
+chmod +x scripts/install.sh
+./scripts/install.sh
 ```
 
 На этом работа по утановке ПО заканчивается.
