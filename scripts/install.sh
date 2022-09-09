@@ -5,7 +5,7 @@ cd ~/booster-ui
 npm i
 npm run build
 
-mkdir ~/.config/autostart/booster-ui.desktop
+mkdir ~/.config/autostart
 cat > ~/.config/autostart/booster-ui.desktop << EOF
 [Desktop Entry]
 Type=Application
