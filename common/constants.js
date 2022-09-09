@@ -1,3 +1,4 @@
+// Однобайтовые значения
 const STATE_DATA = [
   { label: 'purge delay', units: 's', name: 'blowDelay', prefix: 'P ' },
   { label: 'load mode', name: 'loadMode' },
@@ -36,6 +37,7 @@ const STATE_DATA = [
   { name: 'fanCoeff', label: 'fan coefficient' },
 ];
 
+// Двухбайтовые значения
 const PARAMS_DATA = [
   {
     label: 'purge duration',
@@ -168,6 +170,7 @@ const PARAMS_DATA = [
 
 const DATA_BYTE_LENGTH = STATE_DATA.length + PARAMS_DATA.length * 2 + 4 + 2; // for bytes for separators + two bytes for check sum
 
+// Комманды в виде функций, которые принимают значения и возвращают массив для отправки
 const COMMANDS = {
   loadMode: (v) => [4, v],
   boostMode: (v) => [8, v],
@@ -197,6 +200,7 @@ const COMMANDS = {
   fanCoeff: (v) => [140, v],
 };
 
+// ограничения полей ввода
 const CONSTRAINTS = {
   blowDelay: [1, 200],
   blowDuration: [20, 10000],
@@ -223,6 +227,7 @@ const CONSTRAINTS = {
   fanCoeff: [0, 255],
 };
 
+// шаг поля ввода
 const STEPS = {
   blowDelay: 1,
   blowDuration: 10,
@@ -254,6 +259,7 @@ const STEPS = {
   fanCoeff: 1,
 };
 
+// значения, которые пишутся в лог
 const LOGGED_VALUES = [
   'load',
   'FCCurrent',
@@ -274,6 +280,7 @@ const LOGGED_VALUES = [
   'isShortCircuit',
 ];
 
+// значения, для которых можно задать программу изменения 
 const ALGORITHM_PARAM = [
   { value: 'none', label: 'load disabled' },
   { value: 'current', label: 'current', units: 'A' },
@@ -283,6 +290,8 @@ const ALGORITHM_PARAM = [
   { value: 'fanLoad', label: 'fan load', units: '%' },
 ];
 
+
+// сборка всех параметров в одну большую структуру данных
 const SERIAL_DATA = {
   FCPower: { label: 'power', units: 'W' },
 };
@@ -294,6 +303,7 @@ function addParamToMap(param) {
   SERIAL_DATA[param.name] = param;
 }
 
+// сигналы ошибок
 const SIGNALS = {
   tempError: 'High temperature, stop\n',
   pressureError: 'Low pressure, stop\n',
@@ -304,6 +314,7 @@ const SIGNALS = {
 
 const BOOST_MODES = ['manual fan', 'auto fan', 'manual temp', 'auto temp'];
 
+// иконки для режимов автоматического изменения параметров
 const ALGORITHM_DIRECTIONS = [
   { label: '', value: 'up', icon: '&#xe809;' },
   { label: '', value: 'down', icon: '&#xe807;' },
