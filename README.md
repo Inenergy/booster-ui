@@ -39,10 +39,11 @@ sudo cp node-v12.22.12-linux-armv7l/{bin,include,lib,share} /usr/
 ```
 Теперь нужно скачать архив с файлами программы из releases, так же его распаковать и запустить скрипт:
 ```sh
-tar -xzf booster-ui.tar.gz -C booster-ui
+tar -xzf booster-ui-v1.4.0.tar.gz booster-ui
 cd booster-ui
 ./scripts/autostart.sh
 ```
+Версию в названии архива нужно поменять на текущую.
 
 ## Подключение к стенду
 
