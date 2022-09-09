@@ -26,8 +26,23 @@ enable_uart=1
 chmod +x scripts/install.sh
 ./scripts/install.sh
 ```
+**!ВАЖНО** все скрипты в папке scripts работают корректно только если запущены из корневой папки программы booster-ui.
 
 На этом работа по утановке ПО заканчивается.
+
+## Установка без интернета
+Чтобы установить nodejs нужно скачать архив [node-v12.22.12-linux-arm64.tar.gz](https://nodejs.org/download/release/v12.22.12/node-v12.22.12-linux-arm64.tar.gz)  
+Открыть папку с архивом в терминале на распберри (f4 в файловом меджере запускает терминал) и ввести комманды:
+```sh
+tar -xzf node-v12.22.12-linux-armv7l.tar.gz
+sudo cp node-v12.22.12-linux-armv7l/{bin,include,lib,share} /usr/
+```
+Теперь нужно скачать архив с файлами программы из releases, так же его распаковать и запустить скрипт:
+```sh
+tar -xzf booster-ui.tar.gz -C booster-ui
+cd booster-ui
+./scripts/autostart.sh
+```
 
 ## Подключение к стенду
 
