@@ -1,11 +1,17 @@
-curl -fsSL https://deb.nodesource.com/setup_14.x | sudo -E bash -
+curl -fsSL https://deb.nodesource.com/setup_12.x | sudo -E bash -
 sudo apt-get install -y nodejs
 
 cd ~/booster-ui
 npm i
 npm run build
 
-sudo echo "chromium-browser --incognito --app=http://localhost:6010" >> /etc/xdg/lxsession/LXDE-pi/autostart
+mkdir ~/.config/autostart/booster-ui.desktop
+cat > ~/.config/autostart/booster-ui.desktop << EOF
+[Desktop Entry]
+Type=Application
+Exec=chromium-browser --incognito --app=http://localhost:6010
+EOF
+
 mkdir ~/.config/openbox
 cat > ~/.config/openbox/lxde-pi-rc.xml << EOF
 <?xml version="1.0" encoding="UTF-8"?>
