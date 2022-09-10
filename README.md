@@ -31,13 +31,13 @@ chmod +x scripts/install.sh
 На этом работа по утановке ПО заканчивается.
 
 ## Установка без интернета
-Чтобы установить nodejs нужно скачать архив [node-v12.22.12-linux-armv7l.tar.gz](https://nodejs.org/download/release/v12.22.12/node-v12.22.12-linux-armv7l.tar.gz)  
-Открыть папку с архивом в терминале на распберри (f4 в файловом меджере запускает терминал) и ввести комманды:
+Чтобы установить nodejs нужно скачать архив [node-v12.22.12-linux-armv7l.tar.gz](https://nodejs.org/download/release/v12.22.12/node-v12.22.12-linux-armv7l.tar.gz) и закинуть его на распберри  
+Открыть папку с архивом в терминале на распберри (f4 в файловом меджере запустит терминал в нужной папке) и ввести комманды:
 ```sh
 tar -xzf node-v12.22.12-linux-armv7l.tar.gz
 sudo cp node-v12.22.12-linux-armv7l/{bin,include,lib,share} /usr/
 ```
-Теперь нужно скачать архив с файлами программы из releases, так же его распаковать и запустить скрипт:
+Теперь нужно скачать архив с файлами программы из releases, так же его закинуть на распберри, распаковать и запустить скрипт:
 ```sh
 tar -xzf booster-ui-v1.4.0.tar.gz booster-ui
 cd booster-ui
