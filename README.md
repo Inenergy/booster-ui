@@ -35,7 +35,7 @@ chmod +x scripts/install.sh
 Открыть папку с архивом в терминале на распберри (f4 в файловом меджере запустит терминал в нужной папке) и ввести комманды:
 ```sh
 tar -xzf node-v12.22.12-linux-armv7l.tar.gz
-sudo cp node-v12.22.12-linux-armv7l/{bin,include,lib,share} /usr/
+sudo cp -r node-v12.22.12-linux-armv7l/{bin,include,lib,share} /usr/
 ```
 Теперь нужно скачать архив с файлами программы из releases, так же его закинуть на распберри, распаковать и запустить скрипт:
 ```sh
